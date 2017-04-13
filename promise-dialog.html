@@ -60,6 +60,9 @@ Example:
             listeners: {
                 'tap': '_onDialogClick'
             },
+            /**
+             * @return {Promise} promise - Resloves when dialog is dismissed.
+             */
             open: function() {
                 this.$.dialog.open();
                 return new Promise(function(resolve, reject) {
@@ -67,12 +70,20 @@ Example:
                     this._rejectPromise = reject;
                 }.bind(this));
             },
+            /**
+             * Closes the dialog and resolves its promise.
+             * @param {*} promiseValue - Promise will be resolved with this value.
+             */
             closeAsResolved: function(promiseValue) {
                 this.$.dialog.close();
                 this.async(function() {
                     this._resolvePromise(promiseValue);
                 }.bind(this));
             },
+            /**
+             * Closes the dialog and rejects its promise.
+             * @param {*} promiseValue - Promise will be rejected with this value.
+             */
             closeAsRejected: function(promiseValue) {
                 this.$.dialog.close();
                 this.async(function() {
