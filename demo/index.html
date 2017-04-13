@@ -10,6 +10,8 @@
 
     <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
     <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+    <link rel="import" href="../../paper-button/paper-button.html">
+    <link rel="import" href="../../paper-toast/paper-toast.html">
     <link rel="import" href="../promise-dialog.html">
 
     <style is="custom-style" include="demo-pages-shared-styles">
@@ -20,7 +22,32 @@
       <h3>Basic promise-dialog demo</h3>
       <demo-snippet>
         <template>
-          <promise-dialog></promise-dialog>
+
+          <script>
+            function openDialog() {
+
+              promiseDialog.open().then(promiseValue => {
+
+                toast.show({
+                  text: `Dialog has been dismissed. Promise resolved to "${promiseValue}"`
+                });
+              });
+            }
+          </script>
+
+          <promise-dialog id="promiseDialog" modal>
+            <h2>Title</h2>
+            <div>
+              body
+            </div>
+            <div class="buttons">
+              <paper-button promise-reject>Reject dialog promise</paper-button>
+              <paper-button promise-resolve promise-value="OK">Resolve dialog promise</paper-button>
+            </div>
+          </promise-dialog>
+
+          <paper-button onclick="openDialog()" raised>open</paper-button>
+          <paper-toast id="toast"></paper-toast>
         </template>
       </demo-snippet>
     </div>
