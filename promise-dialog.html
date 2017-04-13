@@ -1,10 +1,10 @@
 <link rel="import" href="../paper-dialog/paper-dialog.html">
 
 <!--
-`promise-dialog`
-promise-dialog is nearly identical to paper-dialog, except that the .open()
-method returns a promise. That promise gets resolved or rejected whenever the
-dialog is closed.
+promise-dialog is nearly identical to
+[paper-dialog](https://www.webcomponents.org/element/PolymerElements/paper-dialog),
+except that the `.open()` method returns a promise. That promise gets resolved
+or rejected whenever the dialog is closed.
 
 Similar to paper-dialog's `dialog-dismiss` and `dialog-confirm` attributes,
 promise-dialog allows you to use `promise-resolve` and `promise-reject`, which
@@ -16,6 +16,7 @@ the promise resolve to (or rejects to).
 
 Example:
 
+```
 <promise-dialog>
     <h2>title</h2>
     <div> content </div>
@@ -28,6 +29,7 @@ Example:
         </paper-button>
     </div>
 </promise-dialog>
+```
 
 @demo demo/index.html
 -->
