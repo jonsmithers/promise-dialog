@@ -1,0 +1,97 @@
+<link rel="import" href="../paper-dialog/paper-dialog.html">
+
+<!--
+
+Similar to paper-dialog's `dialog-dismiss` and `dialog-confirm` attributes,
+promise-dialog allows you to use `promise-resolve` and `promise-reject`, which
+will not only close the dialog, but also resolve/reject the promise returned by
+dialog.open().
+
+You can also provide a `promise-value="value"` attribute to specify what value
+the promise resolve to (or rejects to).
+
+Example:
+
+<promise-dialog>
+    <h2>title</h2>
+    <div> content </div>
+    <div class="buttons">
+        <paper-button promise-resolve promise-value="confirmed!">
+            Ok
+        </paper-button>
+        <paper-button promise-reject promise-value="user cancelled">
+            Cancel
+        </paper-button>
+    </div>
+</promise-dialog>
+
+-->
+<dom-module id="promise-dialog">
+    <template>
+        <style>
+            paper-dialog {
+                @apply(--promise-paper-dialog);
+            }
+        </style>
+        <paper-dialog id="dialog"
+                      modal="[[modal]]"
+                      entry-animation="[[entryAnimation]]"
+                      exit-animation="[[exitAnimation]]"
+                      opened="{{opened}}"
+                      >
+                      <content></content>
+        </paper-dialog>
+    </template>
+
+    <script>
+        Polymer({
+            is: "promise-dialog",
+            properties: {
+                modal: {
+                    type: Boolean,
+                    value: false
+                }
+            },
+            listeners: {
+                'tap': '_onDialogClick'
+            },
+            open: function() {
+                this.$.dialog.open();
+                return new Promise(function(resolve, reject) {
+                    this._resolvePromise = resolve;
+                    this._rejectPromise = reject;
+                }.bind(this));
+            },
+            closeAsResolved: function(promiseValue) {
+                this.$.dialog.close();
+                this.async(function() {
+                    this._resolvePromise(promiseValue);
+                }.bind(this));
+            },
+            closeAsRejected: function(promiseValue) {
+                this.$.dialog.close();
+                this.async(function() {
+                    this._rejectPromise(promiseValue);
+                });
+            },
+            _onDialogClick: function(event) {
+                // (This code is copied from paper-dialog.html)
+                // Search for the element with promise-resolve or promise-reject,
+                // from the root target until this (excluded).
+                var path = Polymer.dom(event).path;
+                for (var i = 0; i < path.indexOf(this); i++) {
+                    var target = path[i];
+                    if (target.hasAttribute && (target.hasAttribute('promise-resolve') || target.hasAttribute('promise-reject'))) {
+                        if (target.hasAttribute('promise-resolve')) {
+                            this.closeAsResolved(target.getAttribute("promise-value"));
+                        } else {
+                            this.closeAsRejected(target.getAttribute("promise-value"));
+                        }
+                        event.stopPropagation();
+                        break;
+                    }
+                }
+            }
+        });
+    </script>
+</dom-module>
