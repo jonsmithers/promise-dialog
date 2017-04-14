@@ -6,7 +6,8 @@ paper-dialog with a promise signifying when the dialog has been dismissed
 
 ## Quick Demo
 
-<!--
+<!---
+```
 <custom-element-demo>
   <template>
     <link rel="import" href="promise-dialog.html">
