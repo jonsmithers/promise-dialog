@@ -42,6 +42,6 @@ paper-dialog with a promise signifying when the dialog has been dismissed
   </div>
 </promise-dialog>
 
-<paper-button onclick="openDialog()" raised>open</paper-button>
+<paper-button onclick="openDialog()" raised style="margin:200px;">open promise dialog</paper-button>
 <paper-toast id="toast"></paper-toast>
 ```
