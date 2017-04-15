@@ -1,8 +1,11 @@
 # \<promise-dialog\>
 
-paper-dialog with a promise signifying when the dialog has been dismissed
+**Promise-dialog** adds promises to
+[**paper-dialog**](https://www.webcomponents.org/element/PolymerElements/paper-dialog)
+that tell you when (and how) the user has dismissed a dialog.
 
-[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/jonsmithers/promise-dialog)
+[![Published on
+webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/jonsmithers/promise-dialog)
 
 ## Quick Demo
 

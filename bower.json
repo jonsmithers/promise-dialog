@@ -1,6 +1,6 @@
 {
   "name": "promise-dialog",
-  "description": "Just like paper-dialog except there's a promise signifying when the dialog has been dismissed.",
+  "description": "Adds promises to paper-dialog",
   "main": "promise-dialog.html",
   "dependencies": {
     "polymer": "Polymer/polymer#^1.4.0",
