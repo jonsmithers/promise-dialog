@@ -1,11 +1,14 @@
 # \<promise-dialog\>
 
-**Promise-dialog** adds promises to
-[**paper-dialog**](https://www.webcomponents.org/element/PolymerElements/paper-dialog)
-that tell you when (and how) the user has dismissed a dialog.
-
 [![Published on
 webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/jonsmithers/promise-dialog)
+
+You can use **promise-dialog** exactly the same way you'd use **paper-dialog**,
+but with several differences. Calling `promiseDialog.open()` will return a
+*Promise* object. Instead of **paper-dialog**'s `dialog-dismiss` and
+`dialog-confirm` attributes, you now have `promise-resolve`, `promise-reject`,
+and `promise-value="..."` attributes. When the promise resolves/rejects, the
+user has dismissed the dialog.
 
 ## Quick Demo
 
