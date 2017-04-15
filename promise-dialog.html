@@ -54,6 +54,9 @@ Example:
         Polymer({
             is: "promise-dialog",
             properties: {
+                /**
+                 * If `modal` is true, this implies `no-cancel-on-outside-click`, `no-cancel-on-esc-key` and `with-backdrop`.
+                 */
                 modal: {
                     type: Boolean,
                     value: false
