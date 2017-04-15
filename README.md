@@ -23,7 +23,7 @@ webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue
 -->
 ```html
 <script>
-  function openDialog() {
+  function _onButtonClick() {
 
     promiseDialog.open().then(promiseValue => {
 
@@ -45,6 +45,6 @@ webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue
   </div>
 </promise-dialog>
 
-<paper-button onclick="openDialog()" raised style="margin:200px;">open promise dialog</paper-button>
+<paper-button onclick="_onButtonClick()" raised style="margin:200px;">open promise dialog</paper-button>
 <paper-toast id="toast"></paper-toast>
 ```
