@@ -19,10 +19,21 @@
     </test-fixture>
 
     <script>
-      suite('promise-dialog', function() {
-        test('instantiating the element works', function() {
-          var element = fixture('basic');
+      describe('promise-dialog', function() {
+        let element;
+        before(function() {
+            element = fixture('basic');
+        });
+        it('instantiating the element works', function() {
           assert.equal(element.is, 'promise-dialog');
+        });
+        it('should resolve', function(done) {
+          element.open().then(done);
+          element.closeAsResolved();
+        });
+        it('should reject', function(done) {
+          element.open().then(null, done);
+          element.closeAsRejected();
         });
       });
     </script>
