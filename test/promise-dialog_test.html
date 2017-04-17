@@ -27,13 +27,35 @@
         it('instantiating the element works', function() {
           assert.equal(element.is, 'promise-dialog');
         });
-        it('should resolve', function(done) {
-          element.open().then(done);
-          element.closeAsResolved();
+        describe('resolve', function() {
+          it('should resolve', function(done) {
+            element.open().then(done);
+            element.closeAsResolved();
+          });
+          it('should resolve with value', function(done) {
+            let expected = 42;
+            element.open().then(actual => {
+              expect(actual).to.be.equal(expected);
+              done();
+            })
+            .catch(err => done(new Error(err)));
+            element.closeAsResolved(expected);
+          });
         });
-        it('should reject', function(done) {
-          element.open().then(null, done);
-          element.closeAsRejected();
+        describe('reject', function() {
+          it('should reject', function(done) {
+            element.open().then(null, done);
+            element.closeAsRejected();
+          });
+          it('should reject with value', function(done) {
+            let expected = 42;
+            element.open().then(null, actual => {
+              expect(actual).to.be.equal(expected);
+              done();
+            })
+            .catch(err => done(new Error(err)));
+            element.closeAsRejected(expected);
+          });
         });
       });
     </script>
