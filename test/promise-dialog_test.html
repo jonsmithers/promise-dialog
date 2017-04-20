@@ -8,6 +8,7 @@
 
     <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
     <script src="../../web-component-tester/browser.js"></script>
+    <link rel="import" href="../../iron-test-helpers/iron-test-helpers.html">
 
     <link rel="import" href="../promise-dialog.html">
   </head>
@@ -18,13 +19,100 @@
       </template>
     </test-fixture>
 
+    <test-fixture id="buttons">
+      <template>
+        <promise-dialog>
+          <div class="buttons">
+            <paper-button promise-resolve></paper-button>
+            <paper-button promise-reject></paper-button>
+          </div>
+        </promise-dialog>
+      </template>
+    </test-fixture>
     <script>
-      suite('promise-dialog', function() {
-        test('instantiating the element works', function() {
-          var element = fixture('basic');
+      describe('promise-dialog', function() {
+        let element;
+        before(function() {
+          element = fixture('basic');
+        });
+        it('instantiating the element works', function() {
           assert.equal(element.is, 'promise-dialog');
         });
+        describe('resolve', function() {
+          it('should resolve', function(done) {
+            element.open().then(done);
+            element.closeAsResolved();
+          });
+          it('should resolve with value', function(done) {
+            let expected = 42;
+            element.open().then(actual => {
+              expect(actual).to.be.equal(expected);
+              done();
+            })
+            .catch(done);
+            element.closeAsResolved(expected);
+          });
+        });
+        describe('reject', function() {
+          it('should reject', function(done) {
+            element.open().then(null, done);
+            element.closeAsRejected();
+          });
+          it('should reject with value', function(done) {
+            let expected = 42;
+            element.open().then(null, actual => {
+              expect(actual).to.be.equal(expected);
+              done();
+            })
+            .catch(done);
+            element.closeAsRejected(expected);
+          });
+        });
       });
+      describe('button taps', function() {
+        let element;
+        let resolveButton;
+        let rejectButton;
+        before(function() {
+          element = fixture('buttons');
+          resolveButton = Polymer.dom(element).querySelector('[promise-resolve]');
+          rejectButton = Polymer.dom(element).querySelector('[promise-reject]');
+        });
+        describe('resolve', function() {
+          it('should resolve', function(done) {
+            element.open().then(done); 
+            MockInteractions.tap(resolveButton);
+          });
+          it('should resolve with value', function(done) {
+            let expected = 42;
+            resolveButton.setAttribute('promise-value', expected);
+            element.open().then(actual => {
+              expect(actual).be.equal(JSON.stringify(expected));
+              done();
+            })
+            .catch(done);
+            MockInteractions.tap(resolveButton);
+          });
+        });
+
+        describe('reject', function() {
+          it('should reject', function(done) {
+            element.open().then(null, done); 
+            MockInteractions.tap(rejectButton);
+          });
+          it('should reject with value', function(done) {
+            let expected = 42;
+            rejectButton.setAttribute('promise-value', expected);
+            element.open().then(null, actual => {
+              expect(actual).be.equal(JSON.stringify(expected));
+              done();
+            })
+            .catch(done);
+            MockInteractions.tap(rejectButton);
+          });
+        });
+      });
+
     </script>
   </body>
 </html>
