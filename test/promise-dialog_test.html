@@ -85,9 +85,10 @@
           });
           it('should resolve with value', function(done) {
             let expected = 42;
-            resolveButton.setAttribute('promise-value', expected);
+            resolveButton['promise-value'] = expected;
+            resolveButton.setAttribute('promise-value', "this line does nothing");
             element.open().then(actual => {
-              expect(actual).be.equal(JSON.stringify(expected));
+              expect(actual).be.equal(expected);
               done();
             })
             .catch(done);
@@ -102,9 +103,10 @@
           });
           it('should reject with value', function(done) {
             let expected = 42;
-            rejectButton.setAttribute('promise-value', expected);
+            rejectButton['promise-value'] = expected;
+            rejectButton.setAttribute('promise-value', "this line does nothing");
             element.open().then(null, actual => {
-              expect(actual).be.equal(JSON.stringify(expected));
+              expect(actual).be.equal(expected);
               done();
             })
             .catch(done);
