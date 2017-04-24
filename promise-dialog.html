@@ -112,9 +112,9 @@ Example:
                     var target = path[i];
                     if (target.hasAttribute && (target.hasAttribute('promise-resolve') || target.hasAttribute('promise-reject'))) {
                         if (target.hasAttribute('promise-resolve')) {
-                            this.closeAsResolved(target.getAttribute("promise-value"));
+                            this.closeAsResolved(target["promise-value"]);
                         } else {
-                            this.closeAsRejected(target.getAttribute("promise-value"));
+                            this.closeAsRejected(target["promise-value"]);
                         }
                         event.stopPropagation();
                         break;
