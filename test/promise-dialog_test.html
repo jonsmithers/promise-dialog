@@ -29,6 +29,16 @@
         </promise-dialog>
       </template>
     </test-fixture>
+    <test-fixture id="data-binding-and-attributes">
+      <template>
+        <promise-dialog>
+          <div class="buttons">
+            <paper-button promise-resolve promise-value="attribute value"></paper-button>
+            <paper-button promise-resolve></paper-button>
+          </div>
+        </promise-dialog>
+      </template>
+    </test-fixture>
     <script>
       describe('promise-dialog', function() {
         let element;
@@ -85,8 +95,8 @@
           });
           it('should resolve with value', function(done) {
             let expected = 42;
-            resolveButton['promise-value'] = expected;
-            resolveButton.setAttribute('promise-value', "this line does nothing");
+            resolveButton.setAttribute('promise-value', expected);
+            expected = "" + expected; // attributes are serialized
             element.open().then(actual => {
               expect(actual).be.equal(expected);
               done();
@@ -103,14 +113,50 @@
           });
           it('should reject with value', function(done) {
             let expected = 42;
-            rejectButton['promise-value'] = expected;
-            rejectButton.setAttribute('promise-value', "this line does nothing");
+            rejectButton.setAttribute('promise-value', expected);
+            expected = "" + expected; // attributes are serialized
             element.open().then(null, actual => {
               expect(actual).be.equal(expected);
               done();
             })
             .catch(done);
             MockInteractions.tap(rejectButton);
+          });
+        });
+      });
+      describe('data binding', function() {
+        let promiseDialog;
+        let attributeButton;
+        let dataBoundButton;
+        before(function() {
+          promiseDialog = fixture("data-binding-and-attributes");
+          attributeButton = Polymer.dom(promiseDialog).querySelector("paper-button[promise-value]");
+          dataBoundButton = Polymer.dom(promiseDialog).querySelector("paper-button:not([promise-value])");
+        });
+        describe('attribute', function() {
+          it('promise value should work as an attribute', done => {
+            let expected = "attribute value"; // matches fixture
+            promiseDialog.open().then(actual => {
+              expect(actual).to.be.equal(expected);
+            }).then(done);
+            MockInteractions.tap(attributeButton);
+          });
+          it('promise value should work through data binding', done => {
+            let expected = "data bound value";
+            dataBoundButton.promiseValue = "non-final value";
+            dataBoundButton.promiseValue = expected;
+            promiseDialog.open().then(actual => {
+              expect(actual).to.be.equal(expected);
+            }).then(done);
+            MockInteractions.tap(dataBoundButton);
+          });
+          it('data bound promise value should override attribute value', done => {
+            let expected = "data bound value";
+            attributeButton.promiseValue = expected;
+            promiseDialog.open().then(actual => {
+              expect(actual).to.be.equal(expected);
+            }).then(done);
+            MockInteractions.tap(attributeButton);
           });
         });
       });
